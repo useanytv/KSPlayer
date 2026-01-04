@@ -591,10 +591,15 @@ extension EventModifiers {
 }
 
 @available(iOS 16, tvOS 16, macOS 13, *)
-struct VideoSubtitleView: View {
+public struct VideoSubtitleView: View {
     @ObservedObject
-    fileprivate var model: SubtitleModel
-    var body: some View {
+    public var model: SubtitleModel
+
+    public init(model: SubtitleModel) {
+        self.model = model
+    }
+
+    public var body: some View {
         ZStack {
             ForEach(model.parts) { part in
                 part.subtitleView
@@ -602,7 +607,7 @@ struct VideoSubtitleView: View {
         }
     }
 
-    fileprivate static func imageView(_ image: UIImage) -> some View {
+    static func imageView(_ image: UIImage) -> some View {
         #if enableFeatureLiveText && canImport(VisionKit) && !targetEnvironment(simulator)
         if #available(macCatalyst 17.0, *) {
             return LiveTextImage(uiImage: image)
